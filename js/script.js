@@ -1,13 +1,23 @@
-//richiamo evento dal dom
-document.addEventListener('DOMContentLoaded', () => {
-    const emailList = document.getElementById('emailList');
-    const emailPromises = [];
+const { createApp } = Vue;
 
-//ciclo for per chiamare i 10 indirizzi email 
-for (let i = 0; i < 10; i++) {
-    //fetch per chiamare le 10 api
-    emailPromises.push(fetch('https://flynn.boolean.careers/exercises/api/random/mail')
-        .then(response => response.json())
-        .then(data => data.response));
+createApp({
+    data() {
+        return {
+            emails: []
+        }
+    },
+    created () {
+        this.getRandomsEmails();
+    },
+    methods: {
+        getRandomsEmails(){
+            for(let i=0; i>10; i++) {
+                axios.get('https://flynn.boolean.careers/exercises/api/random/mail').then((result) => {
+                    this.emails.push(result.data.response)
+                });
+            }
+          
+        }
     }
-});
+}).mount('#app');
+
